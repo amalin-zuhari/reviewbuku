@@ -3,6 +3,19 @@
     <form @submit.prevent="submitReview" class="space-y-4">
       <div>
         <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
+          Image Url
+        </label>
+        <input
+          v-model="reviewForm.imageUrl"
+          id="imageUrl"
+          type="text"
+          placeholder="Paste Image Url"
+          required
+          class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+        />
+      </div>
+      <div>
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
           Book Title
         </label>
         <input
@@ -132,7 +145,8 @@ const reviewForm = ref<Review>({
   author: '',
   genre: '',
   rating: 0,
-  reviewText: ''
+  reviewText: '',
+  imageUrl:''
 });
 
 const currentReviewId = ref<number | null>(null);
@@ -172,7 +186,8 @@ const resetForm = () => {
     author: '',
     genre: '',
     rating: 0,
-    reviewText: ''
+    reviewText: '',
+    imageUrl: ''
   };
   currentReviewId.value = null;
 };
