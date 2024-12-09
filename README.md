@@ -17,7 +17,7 @@ A book review application that allows users to add books, write reviews, and sea
 - **Backend**: NestJS
 - **Database**: SQLite
 - **Styling**: Tailwind CSS
-
+```
 ## Installation
 
 Follow these steps to set up the app locally:
@@ -25,7 +25,7 @@ Follow these steps to set up the app locally:
 1. **Clone the repository**:
 
    ```bash
-   git clone https://github.com/amalinzuhari/reviewbuku.git
+   git clone https://github.com/amalin-zuhari/reviewbuku.git
    ```
 
 2. **Navigate to the project directory**:
