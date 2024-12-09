@@ -1,6 +1,9 @@
 <template>
   <div class="container mx-auto px-4 py-8">
+    <!-- Search Component -->
     <ReviewSearch @search="handleSearch" />
+
+    <!-- Title -->
     <h2 class="text-3xl font-bold mb-6 text-center">Book Reviews</h2>
 
     <!-- Loading or No Reviews -->
@@ -11,46 +14,93 @@
 
     <!-- Display Reviews -->
     <div v-else class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <ReviewItem v-for="review in filteredReviews" :key="review.id" :review="review" @edit="startEditing"
-        @delete="deleteReview" />
+      <ReviewItem
+        v-for="review in filteredReviews"
+        :key="review.id"
+        :review="review"
+        @edit="startEditing"
+        @delete="deleteReview"
+      />
     </div>
 
     <!-- Button to Add New Review -->
-    <button class="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-      @click="navigateToAddReview">
+    <button
+      class="mt-6 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+      @click="navigateToAddReview"
+    >
       Add New Review
     </button>
 
     <!-- Modal for Editing Review -->
-    <div v-if="isModalOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center">
-      <div class="bg-white p-6 rounded shadow-lg w-full max-w-lg">
-        <h3 class="text-xl font-bold mb-4">Edit Review</h3>
-        <form>
+    <div
+      v-if="isModalOpen"
+      class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center"
+      @keydown.esc="closeEditModal"
+    >
+      <div
+        class="bg-white p-6 rounded shadow-lg w-full max-w-lg"
+        role="dialog"
+        aria-labelledby="edit-modal-title"
+        aria-modal="true"
+      >
+        <h3 id="edit-modal-title" class="text-xl font-bold mb-4">Edit Review</h3>
+        <form @submit.prevent="saveChanges">
+          <!-- Image URL -->
           <div class="mb-4">
             <label for="imageUrl" class="block font-medium mb-2">Image URL</label>
-            <input type="text" id="imageUrl" v-model="editingReview.imageUrl" class="w-full border rounded px-4 py-2" />
+            <input
+              type="text"
+              id="imageUrl"
+              v-model="editingReview.imageUrl"
+              class="w-full border rounded px-4 py-2"
+            />
           </div>
+
+          <!-- Title -->
           <div class="mb-4">
             <label for="title" class="block font-medium mb-2">Title</label>
-            <input type="text" id="title" v-model="editingReview.title" class="w-full border rounded px-4 py-2" />
+            <input
+              type="text"
+              id="title"
+              v-model="editingReview.title"
+              class="w-full border rounded px-4 py-2"
+            />
           </div>
+
+          <!-- Author -->
           <div class="mb-4">
             <label for="author" class="block font-medium mb-2">Author</label>
-            <input type="text" id="author" v-model="editingReview.author" class="w-full border rounded px-4 py-2" />
+            <input
+              type="text"
+              id="author"
+              v-model="editingReview.author"
+              class="w-full border rounded px-4 py-2"
+            />
           </div>
+
+          <!-- Genre -->
           <div class="mb-4">
             <label for="genre" class="block font-medium mb-2">Genre</label>
-            <select v-model="editingReview.genre" id="genre" class="w-full border rounded px-4 py-2">
+            <select
+              id="genre"
+              v-model="editingReview.genre"
+              class="w-full border rounded px-4 py-2"
+            >
               <option value="Fiction">Fiction</option>
               <option value="Non-Fiction">Non-Fiction</option>
               <option value="Science Fiction">Science Fiction</option>
               <option value="Mystery">Mystery</option>
             </select>
           </div>
-          <div>
-            <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="rating">Rating</label>
-            <select v-model.number="editingReview.rating" id="rating" required
-              class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline">
+
+          <!-- Rating -->
+          <div class="mb-4">
+            <label for="rating" class="block font-medium mb-2">Rating</label>
+            <select
+              id="rating"
+              v-model.number="editingReview.rating"
+              class="w-full border rounded px-4 py-2"
+            >
               <option value="">Select Rating</option>
               <option :value="1">1</option>
               <option :value="2">2</option>
@@ -60,21 +110,30 @@
             </select>
           </div>
 
+          <!-- Review Content -->
           <div class="mb-4">
             <label for="content" class="block font-medium mb-2">Edit Review</label>
-            <textarea id="content" v-model="editingReview.reviewText" class="w-full border rounded px-4 py-2"
-              rows="4"></textarea>
+            <textarea
+              id="content"
+              v-model="editingReview.reviewText"
+              class="w-full border rounded px-4 py-2"
+              rows="4"
+            ></textarea>
           </div>
 
+          <!-- Modal Actions -->
           <div class="flex justify-end space-x-4">
-            <button type="button"
-              class="btn btn-secondary mr-2 bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              @click="closeEditModal">
+            <button
+              type="button"
+              class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded"
+              @click="closeEditModal"
+            >
               Cancel
             </button>
-            <button type="button"
-              class="btn btn-primary bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-              @click="saveChanges">
+            <button
+              type="submit"
+              class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
               Save Changes
             </button>
           </div>
@@ -109,19 +168,21 @@ onMounted(async () => {
   }
 });
 
-// Computed property for filtered reviews based on search query
 const filteredReviews = computed(() =>
-  reviews.value.filter((review) =>
-    review.title.toLowerCase().includes(query.value.toLowerCase())
-  )
+  reviews.value.filter((review) => {
+    const lowerCaseQuery = query.value.toLowerCase();
+    return (
+      review.title.toLowerCase().includes(lowerCaseQuery) ||
+      review.author.toLowerCase().includes(lowerCaseQuery)
+    );
+  })
 );
 
-// Handle search functionality
 const handleSearch = (searchQuery: string) => {
   query.value = searchQuery;
 };
 
-// Delete review functionality
+
 const deleteReview = async (id: number) => {
   try {
     await ReviewService.deleteReview(id);
@@ -131,36 +192,36 @@ const deleteReview = async (id: number) => {
   }
 };
 
-// Open the edit modal and load the review for editing
 const startEditing = (review: Review) => {
-  editingReview.value = { ...review }; // Copy review for editing
-  isModalOpen.value = true; // Open the modal
+  editingReview.value = { ...review };
+  isModalOpen.value = true;
 };
 
-// Close the edit modal
 const closeEditModal = () => {
   isModalOpen.value = false;
-  editingReview.value = null; // Reset the editing review
+  editingReview.value = null;
 };
 
-// Save the changes after editing the review
+const isEditingReviewValid = (review: typeof editingReview.value): review is Review => {
+  return review !== null;
+};
+
 const saveChanges = async () => {
-  if (editingReview.value) {
+  if (isEditingReviewValid(editingReview.value)) {
     try {
       await ReviewService.updateReview(editingReview.value.id, editingReview.value);
-      const index = reviews.value.findIndex(r => r.id === editingReview.value!.id);
+      const index = reviews.value.findIndex((r) => r.id === editingReview.value.id);
       if (index !== -1) {
         reviews.value[index] = { ...editingReview.value };
       }
       console.log('Review updated successfully');
-      closeEditModal(); // Close the modal
+      closeEditModal();
     } catch (error) {
       console.error('Failed to update review:', error);
     }
   }
 };
 
-// Navigate to the page for adding a new review
 const navigateToAddReview = () => {
   router.push('/add-review');
 };

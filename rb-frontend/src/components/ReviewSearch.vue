@@ -3,7 +3,7 @@
     <input
       type="text"
       v-model="query"
-      placeholder="Search reviews by title..."
+      placeholder="Search reviews by title or author..."
       class="w-full px-4 py-2 border rounded focus:outline-none focus:ring"
       @input="emitSearch"
     />
