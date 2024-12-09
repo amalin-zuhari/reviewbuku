@@ -3,7 +3,7 @@
     <div class="container mx-auto px-4">
       <header class="text-center mb-10">
         <h1 class="text-4xl font-extrabold text-gray-900">Review Buku</h1>
-        <p class="text-gray-600 mt-2">Kongsikan pengalaman anda dengan buku kegemaran anda</p>
+        <p class="text-gray-600 mt-2">Share your experience with your favourite books!</p>
       </header>
 
       <main>
