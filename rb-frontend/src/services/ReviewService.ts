@@ -1,7 +1,7 @@
 import axios from 'axios';
 import type { Review } from '@/types/Review';
 
-const API_URL = 'http://localhost:3000/reviews';
+const API_URL = 'http://localhost:3000/review';
 
 export class ReviewService {
   static async getAllReviews(): Promise<Review[]> {

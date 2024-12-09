@@ -1,44 +1,32 @@
 <script setup lang="ts">
 import ReviewForm from '@/components/ReviewForm.vue';
 import ReviewList from '@/components/ReviewList.vue';
+import { ref } from 'vue';
+import type { Review } from '@/types/Review';
+
+const reviewFormRef = ref(null);
+
+const handleEditReview = (review: Review) => {
+  if (reviewFormRef.value) {
+    (reviewFormRef.value as any).editReview(review);
+  }
+};
 </script>
 
 <template>
-  <div class="book-review-app">
-    <header>
-      <h1>Book Review App</h1>
-    </header>
+  <div class="min-h-screen bg-gray-100 py-10">
+    <div class="container mx-auto px-4">
+      <header class="text-center mb-10">
+        <h1 class="text-4xl font-extrabold text-gray-900">Book Review App</h1>
+        <p class="text-gray-600 mt-2">Discover and Share Your Favorite Books</p>
+      </header>
 
-    <main>
-      <div class="review-container">
-        <ReviewForm />
-        <ReviewList />
-      </div>
-    </main>
+      <main>
+        <div class="grid md:grid-cols-1 lg:grid-cols-1 gap-8">
+          <ReviewForm ref="reviewFormRef" />
+          <ReviewList @edit-review="handleEditReview" />
+        </div>
+      </main>
+    </div>
   </div>
 </template>
-
-<style scoped>
-.book-review-app {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  font-family: Arial, sans-serif;
-}
-
-header {
-  text-align: center;
-  margin-bottom: 2rem;
-}
-
-.review-container {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-}
-
-h1 {
-  color: #333;
-  font-size: 2.5rem;
-}
-</style>
