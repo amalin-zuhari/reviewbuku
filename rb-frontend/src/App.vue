@@ -7,23 +7,12 @@
       </header>
 
       <main>
-        <div class="grid md:grid-cols-1 lg:grid-cols-1 gap-8">
-          <ReviewForm ref="reviewFormRef" />
-          <ReviewList @edit-review="handleEditReview" />
-        </div>
+        <router-view />
       </main>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import ReviewForm from '@/components/ReviewForm.vue';
-import ReviewList from '@/components/ReviewList.vue';
-import { ref } from 'vue';
-import type { Review } from '@/types/Review';
-
-const reviewFormRef = ref(null);
-const handleEditReview = (review: Review) => {
-  console.log('Editing review:', review);
-};
+// No changes needed here for now
 </script>
