@@ -1,4 +1,4 @@
-```markdown
+
 # Review Buku App
 
 A book review application that allows users to add books, write reviews, and search for book reviews. Built using Vue3 with TypeScript, NestJS, and SQLite, this app offers an intuitive, user-friendly interface for managing and sharing book reviews.
@@ -17,7 +17,7 @@ A book review application that allows users to add books, write reviews, and sea
 - **Backend**: NestJS
 - **Database**: SQLite
 - **Styling**: Tailwind CSS
-```
+
 ## Installation
 
 Follow these steps to set up the app locally:
