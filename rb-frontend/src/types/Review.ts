@@ -5,6 +5,7 @@ export interface Review {
   genre: string;
   rating: number;
   reviewText: string;
+  imageUrl?: string;
   createdAt?: Date;
   updatedAt?: Date;
 }

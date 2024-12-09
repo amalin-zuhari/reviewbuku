@@ -1,5 +1,6 @@
 <template>
   <div class="bg-white shadow-md rounded-lg p-6 hover:shadow-lg transition-shadow duration-300">
+    <img :src="review.imageUrl" alt="Review Image" class="w-32 h-48 object-cover rounded-lg mx-auto mb-4" />
     <h3 class="text-xl font-semibold mb-2 text-gray-800">{{ review.title }}</h3>
     <p class="text-gray-600 mb-1">Author: {{ review.author }}</p>
     <p class="text-gray-600 mb-1">Genre: {{ review.genre }}</p>
@@ -39,6 +40,7 @@ import type { Review } from '@/types/Review';
 
 defineProps<{ review: Review }>();
 defineEmits(['edit', 'delete']);
+
 </script>
 
 <style>

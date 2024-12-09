@@ -28,6 +28,9 @@ export class Review {
   @IsString()
   reviewText: string;
 
+  @Column({ nullable: true })
+  imageUrl: string | null; // This will store the image URL
+
   @Column({ type: 'datetime', default: () => 'CURRENT_TIMESTAMP' })
   createdAt: Date;
 
