@@ -15,7 +15,7 @@ export class ReviewService {
   }
 
   static async updateReview(id: number, review: Review): Promise<Review> {
-    const response = await axios.put(`${API_URL}/${id}`, review);
+    const response = await axios.patch(`${API_URL}/${id}`, review);
     return response.data;
   }
 
