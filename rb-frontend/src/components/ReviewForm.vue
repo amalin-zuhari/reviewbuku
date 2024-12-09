@@ -2,7 +2,7 @@
   <div class="bg-white shadow-md rounded-lg p-8 max-w-md mx-auto">
     <form @submit.prevent="submitReview" class="space-y-4">
       <div>
-        <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="title">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="title">
           Book Title
         </label>
         <input
@@ -16,7 +16,7 @@
       </div>
 
       <div>
-        <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="author">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="author">
           Author
         </label>
         <input
@@ -30,7 +30,7 @@
       </div>
 
       <div>
-        <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="genre">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="genre">
           Genre
         </label>
         <select
@@ -48,7 +48,7 @@
       </div>
 
       <div>
-        <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="rating">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="rating">
           Rating
         </label>
         <select
@@ -67,7 +67,7 @@
       </div>
 
       <div>
-        <label class="block text-gray-700 text-sm font-bold mb-2" htmlFor="reviewText">
+        <label class="block text-gray-700 text-sm font-bold mb-2" for="reviewText">
           Review
         </label>
         <textarea
@@ -97,6 +97,23 @@
         </button>
       </div>
     </form>
+
+    <!-- Success Dialog -->
+    <div
+      v-if="showSuccessDialog"
+      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center"
+    >
+      <div class="bg-white p-6 rounded shadow-lg w-full max-w-sm text-center">
+        <h2 class="text-lg font-bold mb-4">Success</h2>
+        <p class="mb-4">The review was successfully {{ currentReviewId ? 'updated' : 'added' }}!</p>
+        <button
+          @click="navigateToMain"
+          class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+        >
+          OK
+        </button>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -104,8 +121,11 @@
 import { ref } from 'vue';
 import { ReviewService } from '@/services/ReviewService';
 import type { Review } from '@/types/Review';
+import { useRouter } from 'vue-router';
 
 const emit = defineEmits(['review-added', 'review-updated']);
+
+const router = useRouter();
 
 const reviewForm = ref<Review>({
   title: '',
@@ -116,6 +136,7 @@ const reviewForm = ref<Review>({
 });
 
 const currentReviewId = ref<number | null>(null);
+const showSuccessDialog = ref(false);
 
 const submitReview = async () => {
   try {
@@ -125,12 +146,12 @@ const submitReview = async () => {
         reviewForm.value
       );
       emit('review-updated', updatedReview);
-      resetForm();
     } else {
       const newReview = await ReviewService.createReview(reviewForm.value);
       emit('review-added', newReview);
-      resetForm();
     }
+    resetForm();
+    showSuccessDialog.value = true; // Show dialog after successful submission
   } catch (error) {
     console.error('Failed to submit review:', error);
   }
@@ -154,6 +175,11 @@ const resetForm = () => {
     reviewText: ''
   };
   currentReviewId.value = null;
+};
+
+const navigateToMain = () => {
+  showSuccessDialog.value = false;
+  router.push('/'); // Navigate to the main page
 };
 
 defineExpose({ editReview });
