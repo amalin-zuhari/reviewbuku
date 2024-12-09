@@ -16,7 +16,7 @@
         </svg>
       </div>
     </div>
-    <p class="text-gray-700 mb-4">{{ review.reviewText }}</p>
+    <p class="text-gray-700 mb-4 reviewText">{{ review.reviewText }}</p>
     <div class="flex justify-between">
       <button
         @click="$emit('edit', review)"
@@ -40,3 +40,23 @@ import type { Review } from '@/types/Review';
 defineProps<{ review: Review }>();
 defineEmits(['edit', 'delete']);
 </script>
+
+<style>
+.reviewText {
+    font-family: 'Georgia', serif; /* A classic font often used for quotes */
+    font-size: 1.2em;
+    font-style: italic;
+    color: #4a4a4a; /* Darker gray for better contrast */
+    border-left: 4px solid #4a90e2; /* Blue border for emphasis */
+    padding-left: 20px; /* Adjusted for a balanced space */
+    margin: 20px 0; /* Slightly larger vertical spacing */
+    line-height: 1.6; /* Improved readability */
+    background-color: #f4f4f4; /* Light background for distinction */
+    border-radius: 8px; /* Rounded corners for a softer look */
+    box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+}
+
+
+
+</style>
+
